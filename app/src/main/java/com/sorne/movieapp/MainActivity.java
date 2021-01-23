@@ -9,17 +9,22 @@ import com.sorne.movieapp.models.Movie;
 import com.sorne.movieapp.models.MovieListResponse;
 import com.sorne.movieapp.network.NetworkMovieRepository;
 
-import java.util.List;
+import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     private CompositeDisposable disposable = new CompositeDisposable();
+
+    @Inject
+    public NetworkMovieRepository movieRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         //TODO: Remove later. Just for testing
-        NetworkMovieRepository movieRepository = new NetworkMovieRepository();
-
         disposable.add(movieRepository.getMovieDetails(550)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
