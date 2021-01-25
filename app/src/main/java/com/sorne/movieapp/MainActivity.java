@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.sorne.movieapp.adaptors.MovieListAdaptor;
+import com.sorne.movieapp.databinding.ActivityMainBinding;
 import com.sorne.movieapp.models.Movie;
 import com.sorne.movieapp.models.MovieListResponse;
 import com.sorne.movieapp.network.NetworkMovieRepository;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -20,17 +24,20 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-
-    private CompositeDisposable disposable = new CompositeDisposable();
-
     @Inject
     public NetworkMovieRepository movieRepository;
+
+    private MovieListAdaptor movieListAdaptor = new MovieListAdaptor(new ArrayList<>());
+    private CompositeDisposable disposable = new CompositeDisposable();
+    private ActivityMainBinding viewBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
 
+        viewBinding.recyclerMovieList.setAdapter(movieListAdaptor);
 
         //TODO: Remove later. Just for testing
         disposable.add(movieRepository.getMovieDetails(550)
@@ -57,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < movieListResponse.getMovies().size(); i++) {
                             Log.d("MAIN", "onSuccess: " + movieListResponse.getMovies().get(i).toString());
                         }
+
+                        movieListAdaptor.updateData(movieListResponse.getMovies());
                     }
 
                     @Override

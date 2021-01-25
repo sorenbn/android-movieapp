@@ -13,6 +13,7 @@ public class NetworkMovieRepository implements MovieRepository {
 
     private final MovieAPI api;
     private final String apiKey;
+
     @Inject
     public NetworkMovieRepository(MovieAPI api, @Named("api_key")String apiKey) {
         this.api = api;
@@ -21,13 +22,11 @@ public class NetworkMovieRepository implements MovieRepository {
 
     @Override
     public Single<Movie> getMovieDetails(int id) {
-        //TODO: Get api key from string.xml (and later somewhere more hidden)
         return api.getMovieDetails(id, apiKey);
     }
 
     @Override
     public Single<MovieListResponse> getPopularMovies() {
-        //TODO: Get api key from string.xml (and later somewhere more hidden)
         return api.getPopularMovies(apiKey);
     }
 
