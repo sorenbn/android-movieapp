@@ -9,8 +9,6 @@ import com.sorne.movieapp.adaptors.MovieListAdaptor;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
 import com.sorne.movieapp.models.Movie;
 import com.sorne.movieapp.models.MovieListResponse;
-import com.sorne.movieapp.models.User;
-import com.sorne.movieapp.models.UserAuthRequest;
 import com.sorne.movieapp.network.NetworkMovieRepository;
 import com.sorne.movieapp.network.NetworkUserAuthRepository;
 

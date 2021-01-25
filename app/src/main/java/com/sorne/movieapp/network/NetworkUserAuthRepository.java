@@ -1,5 +1,8 @@
 package com.sorne.movieapp.network;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.sorne.movieapp.models.User;
 import com.sorne.movieapp.models.UserAuthRequest;
 import com.sorne.movieapp.repositories.UserAuthRepository;
@@ -8,6 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.rxjava3.core.Single;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NetworkUserAuthRepository implements UserAuthRepository {
 
@@ -26,7 +32,23 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
     }
 
     @Override
-    public Single<User> signIn(UserAuthRequest authModel) {
-        return api.signInEmailPassword(apiKey, authModel);
+    public LiveData<User> signIn(UserAuthRequest authModel) {
+        MutableLiveData<User> userResponse = new MutableLiveData<>();
+
+        api.signInEmailPassword(apiKey, authModel)
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        userResponse.setValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        userResponse.setValue(null);
+                    }
+                });
+
+        return userResponse;
+        //return api.signInEmailPassword(apiKey, authModel);
     }
 }

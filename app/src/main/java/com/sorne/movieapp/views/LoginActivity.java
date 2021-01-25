@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityLoginBinding;
@@ -30,18 +30,29 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setupBindings() {
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         dataBinding.setViewmodel(viewModel);
     }
 
     private void setupObservers() {
-        viewModel.getLoading().observe(this, loading -> {
-            Log.d("LOGIN", "loading: " + loading.toString());
+        dataBinding.loginBtnLogin.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                viewModel.login().observe(LoginActivity.this, user -> {
+                    if (user != null) {
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
         });
 
-        viewModel.getLoginSuccess().observe(this, success -> {
-            if(success){
-                Intent intent = new Intent(this, HomeActivity.class);
+        dataBinding.loginBtnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
