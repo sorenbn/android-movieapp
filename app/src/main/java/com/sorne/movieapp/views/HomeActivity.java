@@ -79,36 +79,6 @@ public class HomeActivity extends AppCompatActivity {
                         Log.e("MAIN", "onError: " + e.toString(), e);
                     }
                 }));
-
-        disposable.add(userRepository.signIn(new UserAuthRequest("sorne@sorne.com", "password"))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<User>() {
-                    @Override
-                    public void onSuccess(@NonNull User user) {
-                        Log.d("MAIN", "onSuccess: " + user.toString());
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e("MAIN", "onError: " + e.toString(), e);
-                    }
-                }));
-
-        disposable.add(userRepository.signUp(new UserAuthRequest("sorne5@sorne.com", "password"))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<User>() {
-                    @Override
-                    public void onSuccess(@NonNull User user) {
-                        Log.d("MAIN", "onSuccess: " + user.toString());
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e("MAIN", "onError: " + e.toString(), e);
-                    }
-                }));
     }
 
     @Override
