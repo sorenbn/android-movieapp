@@ -31,22 +31,6 @@ public class LoginViewModel extends ViewModel {
     public LiveData<User> login() {
         userSignIn = authRepo.signIn(userRequestModel);
         return userSignIn;
-
-/*        disposable.add(authRepo.signIn(userRequestModel)
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribeWith(new DisposableSingleObserver<User>() {
-            @Override
-            public void onSuccess(@NonNull User user) {
-                loginSuccess.setValue(true);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                loading.setValue(false);
-                loginSuccess.setValue(false);
-            }
-        })); */
     }
 
     @Override

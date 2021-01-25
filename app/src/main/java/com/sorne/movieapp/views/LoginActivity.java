@@ -40,10 +40,14 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                setLoading(true);
+
                 viewModel.login().observe(LoginActivity.this, user -> {
                     if (user != null) {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
+                    } else {
+                        setLoading(false);
                     }
                 });
             }
@@ -56,5 +60,21 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setLoading(boolean loading) {
+        dataBinding.loginProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
+
+        dataBinding.loginBtnLogin.setEnabled(!loading);
+        dataBinding.loginBtnRegister.setEnabled(!loading);
+        dataBinding.loginEmail.setEnabled(!loading);
+        dataBinding.loginPassword.setEnabled(!loading);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        setLoading(false);
     }
 }
