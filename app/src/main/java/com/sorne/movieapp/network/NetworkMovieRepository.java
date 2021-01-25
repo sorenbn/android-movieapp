@@ -15,7 +15,7 @@ public class NetworkMovieRepository implements MovieRepository {
     private final String apiKey;
 
     @Inject
-    public NetworkMovieRepository(MovieAPI api, @Named("api_key")String apiKey) {
+    public NetworkMovieRepository(MovieAPI api, @Named("movie_api_key")String apiKey) {
         this.api = api;
         this.apiKey = apiKey;
     }

@@ -9,7 +9,10 @@ import com.sorne.movieapp.adaptors.MovieListAdaptor;
 import com.sorne.movieapp.databinding.ActivityMainBinding;
 import com.sorne.movieapp.models.Movie;
 import com.sorne.movieapp.models.MovieListResponse;
+import com.sorne.movieapp.models.User;
+import com.sorne.movieapp.models.UserAuthModel;
 import com.sorne.movieapp.network.NetworkMovieRepository;
+import com.sorne.movieapp.network.NetworkUserRepository;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
     @Inject
     public NetworkMovieRepository movieRepository;
+
+    @Inject
+    public NetworkUserRepository userRepository;
 
     private MovieListAdaptor movieListAdaptor = new MovieListAdaptor(new ArrayList<>());
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -66,6 +72,36 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         movieListAdaptor.updateData(movieListResponse.getMovies());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e("MAIN", "onError: " + e.toString(), e);
+                    }
+                }));
+
+        disposable.add(userRepository.signIn(new UserAuthModel("sorne@sorne.com", "password"))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<User>() {
+                    @Override
+                    public void onSuccess(@NonNull User user) {
+                        Log.d("MAIN", "onSuccess: " + user.toString());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e("MAIN", "onError: " + e.toString(), e);
+                    }
+                }));
+
+        disposable.add(userRepository.signUp(new UserAuthModel("sorne5@sorne.com", "password"))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<User>() {
+                    @Override
+                    public void onSuccess(@NonNull User user) {
+                        Log.d("MAIN", "onSuccess: " + user.toString());
                     }
 
                     @Override

@@ -4,6 +4,5 @@
     <string name="movie_api_base_url">https://api.themoviedb.org/3/</string>
     <string name="movie_api_base_url_poster">https://image.tmdb.org/t/p/w500</string>
 
-    <string name="firebase_url_signup_emailpass">https://identitytoolkit.googleapis.com/v1/accounts:signUp</string>
-    <string name="firebase_url_signin_emailpass">https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword</string>
+    <string name="firebase_base_url">https://identitytoolkit.googleapis.com/v1/</string>
 </resources>
