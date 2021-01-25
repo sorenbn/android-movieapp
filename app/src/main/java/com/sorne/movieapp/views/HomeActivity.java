@@ -1,4 +1,4 @@
-package com.sorne.movieapp;
+package com.sorne.movieapp.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.sorne.movieapp.adaptors.MovieListAdaptor;
-import com.sorne.movieapp.databinding.ActivityMainBinding;
+import com.sorne.movieapp.databinding.ActivityHomeBinding;
 import com.sorne.movieapp.models.Movie;
 import com.sorne.movieapp.models.MovieListResponse;
 import com.sorne.movieapp.models.User;
-import com.sorne.movieapp.models.UserAuthModel;
+import com.sorne.movieapp.models.UserAuthRequest;
 import com.sorne.movieapp.network.NetworkMovieRepository;
-import com.sorne.movieapp.network.NetworkUserRepository;
+import com.sorne.movieapp.network.NetworkUserAuthRepository;
 
 import java.util.ArrayList;
 
@@ -26,21 +26,21 @@ import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     @Inject
     public NetworkMovieRepository movieRepository;
 
     @Inject
-    public NetworkUserRepository userRepository;
+    public NetworkUserAuthRepository userRepository;
 
     private MovieListAdaptor movieListAdaptor = new MovieListAdaptor(new ArrayList<>());
     private CompositeDisposable disposable = new CompositeDisposable();
-    private ActivityMainBinding viewBinding;
+    private ActivityHomeBinding viewBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        viewBinding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
 
         viewBinding.recyclerMovieList.setAdapter(movieListAdaptor);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }));
 
-        disposable.add(userRepository.signIn(new UserAuthModel("sorne@sorne.com", "password"))
+        disposable.add(userRepository.signIn(new UserAuthRequest("sorne@sorne.com", "password"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<User>() {
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }));
 
-        disposable.add(userRepository.signUp(new UserAuthModel("sorne5@sorne.com", "password"))
+        disposable.add(userRepository.signUp(new UserAuthRequest("sorne5@sorne.com", "password"))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<User>() {

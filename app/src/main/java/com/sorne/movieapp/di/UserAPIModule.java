@@ -3,7 +3,7 @@ package com.sorne.movieapp.di;
 import android.content.Context;
 
 import com.sorne.movieapp.R;
-import com.sorne.movieapp.network.UserAPI;
+import com.sorne.movieapp.network.UserAuthAPI;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -35,12 +35,12 @@ public class UserAPIModule {
 
     @Provides
     @Singleton
-    public UserAPI provideUserAPI(@Named("firebase_base_url") String baseUrl){
+    public UserAuthAPI provideUserAPI(@Named("firebase_base_url") String baseUrl){
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build()
-                .create(UserAPI.class);
+                .create(UserAuthAPI.class);
     }
 }

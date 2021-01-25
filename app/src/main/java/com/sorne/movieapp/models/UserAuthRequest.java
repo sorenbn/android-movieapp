@@ -2,13 +2,13 @@ package com.sorne.movieapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserAuthModel {
+public class UserAuthRequest {
     @SerializedName("email")
     private String email;
     @SerializedName("password")
     private String password;
 
-    public UserAuthModel(String email, String password) {
+    public UserAuthRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
