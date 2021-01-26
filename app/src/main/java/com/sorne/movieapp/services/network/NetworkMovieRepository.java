@@ -1,8 +1,8 @@
-package com.sorne.movieapp.network;
+package com.sorne.movieapp.services.network;
 
-import com.sorne.movieapp.models.Movie;
-import com.sorne.movieapp.models.MovieListResponse;
-import com.sorne.movieapp.repositories.MovieRepository;
+import com.sorne.movieapp.services.models.Movie;
+import com.sorne.movieapp.services.models.MovieListResponse;
+import com.sorne.movieapp.services.repositories.MovieRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;

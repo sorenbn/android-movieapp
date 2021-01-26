@@ -1,4 +1,4 @@
-package com.sorne.movieapp.models;
+package com.sorne.movieapp.services.models;
 
 import com.google.gson.annotations.SerializedName;
 

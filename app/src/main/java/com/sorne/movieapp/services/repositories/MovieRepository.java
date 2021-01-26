@@ -1,7 +1,7 @@
-package com.sorne.movieapp.repositories;
+package com.sorne.movieapp.services.repositories;
 
-import com.sorne.movieapp.models.Movie;
-import com.sorne.movieapp.models.MovieListResponse;
+import com.sorne.movieapp.services.models.Movie;
+import com.sorne.movieapp.services.models.MovieListResponse;
 
 import io.reactivex.rxjava3.core.Single;
 

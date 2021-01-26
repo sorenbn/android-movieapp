@@ -1,16 +1,16 @@
-package com.sorne.movieapp.views;
+package com.sorne.movieapp.ui.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
 
-import com.sorne.movieapp.adaptors.MovieListAdaptor;
+import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
-import com.sorne.movieapp.models.Movie;
-import com.sorne.movieapp.models.MovieListResponse;
-import com.sorne.movieapp.network.NetworkMovieRepository;
-import com.sorne.movieapp.network.NetworkUserAuthRepository;
+import com.sorne.movieapp.services.models.Movie;
+import com.sorne.movieapp.services.models.MovieListResponse;
+import com.sorne.movieapp.services.network.NetworkMovieRepository;
+import com.sorne.movieapp.services.network.NetworkUserAuthRepository;
 
 import java.util.ArrayList;
 

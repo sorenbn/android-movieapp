@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewmodel"
-            type="com.sorne.movieapp.viewmodels.LoginViewModel" />
+            type="com.sorne.movieapp.viewmodels.RegisterViewModel" />
     </data>
 
     <RelativeLayout
@@ -16,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/root_layout"
+            android:id="@+id/register_root_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="40dp"
@@ -24,7 +23,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/login_email"
+                android:id="@+id/register_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,12 +36,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:text="@={viewmodel.userRequestModel.email}" />
+                    android:text="@={viewmodel.email}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/login_password"
+                android:id="@+id/register_password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,13 +53,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:text="@={viewmodel.userRequestModel.password}" />
+                    android:text="@={viewmodel.password}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/login_passwordRepeat"
+                android:id="@+id/register_passwordRepeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -70,12 +69,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:text="@={viewmodel.repeatPassword}"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/login_btn_login"
+                android:id="@+id/register_btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
@@ -85,9 +85,8 @@
 
         </LinearLayout>
 
-
         <ProgressBar
-            android:id="@+id/login_progressBar"
+            android:id="@+id/register_progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

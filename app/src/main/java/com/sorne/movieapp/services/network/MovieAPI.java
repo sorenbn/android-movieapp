@@ -1,7 +1,7 @@
-package com.sorne.movieapp.network;
+package com.sorne.movieapp.services.network;
 
-import com.sorne.movieapp.models.Movie;
-import com.sorne.movieapp.models.MovieListResponse;
+import com.sorne.movieapp.services.models.Movie;
+import com.sorne.movieapp.services.models.MovieListResponse;
 
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;

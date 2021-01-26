@@ -1,4 +1,4 @@
-package com.sorne.movieapp.views;
+package com.sorne.movieapp.ui.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
         setLoading(false);
     }
 }

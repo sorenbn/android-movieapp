@@ -5,17 +5,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.sorne.movieapp.models.User;
-import com.sorne.movieapp.models.UserAuthRequest;
-import com.sorne.movieapp.repositories.UserAuthRepository;
-
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import com.sorne.movieapp.services.models.User;
+import com.sorne.movieapp.services.models.UserAuthRequest;
+import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 public class LoginViewModel extends ViewModel {
 
     private UserAuthRequest userRequestModel = new UserAuthRequest("", "");
-    private CompositeDisposable disposable = new CompositeDisposable();
-    private UserAuthRepository authRepo;
+    private final UserAuthRepository authRepo;
 
     private LiveData<User> userSignIn = new MutableLiveData<>();
 
@@ -31,11 +28,5 @@ public class LoginViewModel extends ViewModel {
     public LiveData<User> login() {
         userSignIn = authRepo.signIn(userRequestModel);
         return userSignIn;
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        disposable.clear();
     }
 }

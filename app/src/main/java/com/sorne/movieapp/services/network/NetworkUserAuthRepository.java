@@ -1,16 +1,14 @@
-package com.sorne.movieapp.network;
+package com.sorne.movieapp.services.network;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.sorne.movieapp.models.User;
-import com.sorne.movieapp.models.UserAuthRequest;
-import com.sorne.movieapp.repositories.UserAuthRepository;
+import com.sorne.movieapp.services.models.User;
+import com.sorne.movieapp.services.models.UserAuthRequest;
+import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import io.reactivex.rxjava3.core.Single;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,12 +25,27 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
     }
 
     @Override
-    public Single<User> signUp(UserAuthRequest authModel) {
-        return api.signUpEmailPassword(apiKey, authModel);
+    public MutableLiveData<User> signUp(UserAuthRequest authModel) {
+        MutableLiveData<User> userResponse = new MutableLiveData<>();
+
+        api.signUpEmailPassword(apiKey, authModel)
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        userResponse.setValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        userResponse.setValue(null);
+                    }
+                });
+
+        return userResponse;
     }
 
     @Override
-    public LiveData<User> signIn(UserAuthRequest authModel) {
+    public MutableLiveData<User> signIn(UserAuthRequest authModel) {
         MutableLiveData<User> userResponse = new MutableLiveData<>();
 
         api.signInEmailPassword(apiKey, authModel)
@@ -49,6 +62,5 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
                 });
 
         return userResponse;
-        //return api.signInEmailPassword(apiKey, authModel);
     }
 }

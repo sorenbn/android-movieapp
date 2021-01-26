@@ -1,9 +1,9 @@
 package com.sorne.movieapp.di;
 
-import com.sorne.movieapp.network.NetworkMovieRepository;
-import com.sorne.movieapp.network.NetworkUserAuthRepository;
-import com.sorne.movieapp.repositories.MovieRepository;
-import com.sorne.movieapp.repositories.UserAuthRepository;
+import com.sorne.movieapp.services.network.NetworkMovieRepository;
+import com.sorne.movieapp.services.network.NetworkUserAuthRepository;
+import com.sorne.movieapp.services.repositories.MovieRepository;
+import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 import dagger.Binds;
 import dagger.Module;

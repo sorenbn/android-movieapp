@@ -3,7 +3,7 @@ package com.sorne.movieapp.di;
 import android.content.Context;
 
 import com.sorne.movieapp.R;
-import com.sorne.movieapp.network.UserAuthAPI;
+import com.sorne.movieapp.services.network.UserAuthAPI;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

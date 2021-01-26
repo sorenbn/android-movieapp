@@ -1,4 +1,4 @@
-package com.sorne.movieapp.adaptors;
+package com.sorne.movieapp.ui.adaptors;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ItemMovieListThumbnailBinding;
-import com.sorne.movieapp.models.Movie;
+import com.sorne.movieapp.services.models.Movie;
 
 import java.util.List;
 
