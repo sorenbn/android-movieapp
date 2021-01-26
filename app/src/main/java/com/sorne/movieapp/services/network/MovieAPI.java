@@ -3,15 +3,15 @@ package com.sorne.movieapp.services.network;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 
-import io.reactivex.rxjava3.core.Single;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MovieAPI {
     @GET("movie/{id}")
-    Single<Movie> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);
+    Call<Movie> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);
 
     @GET("movie/popular")
-    Single<MovieListResponse> getPopularMovies(@Query("api_key") String apiKey);
+    Call<MovieListResponse> getPopularMovies(@Query("api_key") String apiKey);
 }

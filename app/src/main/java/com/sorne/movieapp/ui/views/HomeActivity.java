@@ -1,87 +1,56 @@
 package com.sorne.movieapp.ui.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
-import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
+import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
-import com.sorne.movieapp.services.models.Movie;
-import com.sorne.movieapp.services.models.MovieListResponse;
-import com.sorne.movieapp.services.network.NetworkMovieRepository;
-import com.sorne.movieapp.services.network.NetworkUserAuthRepository;
+import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
+import com.sorne.movieapp.viewmodels.HomeViewModel;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import dagger.hilt.android.AndroidEntryPoint;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.observers.DisposableSingleObserver;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @AndroidEntryPoint
 public class HomeActivity extends AppCompatActivity {
-    @Inject
-    public NetworkMovieRepository movieRepository;
 
-    @Inject
-    public NetworkUserAuthRepository userRepository;
-
+    private HomeViewModel viewModel;
+    private ActivityHomeBinding dataBinding;
     private MovieListAdaptor movieListAdaptor = new MovieListAdaptor(new ArrayList<>());
-    private CompositeDisposable disposable = new CompositeDisposable();
-    private ActivityHomeBinding viewBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewBinding = ActivityHomeBinding.inflate(getLayoutInflater());
-        setContentView(viewBinding.getRoot());
 
-        viewBinding.recyclerMovieList.setAdapter(movieListAdaptor);
-
-        //TODO: Remove later. Just for testing
-        disposable.add(movieRepository.getMovieDetails(550)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Movie>() {
-                    @Override
-                    public void onSuccess(@NonNull Movie movie) {
-                        Log.d("MAIN", "onSuccess: " + movie.toString());
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e("MAIN", "onError: " + e.toString(), e);
-                    }
-                }));
-
-        disposable.add(movieRepository.getPopularMovies()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<MovieListResponse>() {
-                    @Override
-                    public void onSuccess(@NonNull MovieListResponse movieListResponse) {
-                        for (int i = 0; i < movieListResponse.getMovies().size(); i++) {
-                            Log.d("MAIN", "onSuccess: " + movieListResponse.getMovies().get(i).toString());
-                        }
-
-                        movieListAdaptor.updateData(movieListResponse.getMovies());
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.e("MAIN", "onError: " + e.toString(), e);
-                    }
-                }));
+        setupBindings();
+        setupObservers();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        disposable.clear();
+    private void setupBindings() {
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        dataBinding.recyclerMovieList.setAdapter(movieListAdaptor);
+    }
+
+    private void setupObservers(){
+
+        viewModel.getPopularMovies().observe(this, movieListResponse -> {
+            Log.d("HOME", "Data fetched");
+            movieListAdaptor.updateData(movieListResponse.getMovies());
+            dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
+        });
+    }
+
+    public void fetch(View view){
+        Log.d("HOME", "fetch from UI");
+        dataBinding.recyclerMovieList.setVisibility(View.GONE);
+        viewModel.fetchData();
     }
 }
