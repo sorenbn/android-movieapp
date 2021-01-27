@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.sorne.movieapp.R;
@@ -37,19 +38,23 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
+        viewModel.getUserRegisterCallback().observe(this, user -> {
+            if(user != null){
+                Log.d("REGISTER", "user registered");
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+            }else {
+                Log.d("REGISTER", "user FAILED registered");
+                setLoading(false);
+            }
+        });
+
         dataBinding.registerBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("REGISTER", "onClick");
                 setLoading(true);
-
-                viewModel.registerUser().observe(RegisterActivity.this, user -> {
-                    if(user != null){
-                        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                    }else {
-                        setLoading(false);
-                    }
-                });
+                viewModel.registerUser();
             }
         });
     }

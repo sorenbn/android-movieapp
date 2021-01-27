@@ -25,41 +25,41 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
 
     @Override
     public MutableLiveData<User> signUp(String email, String password) {
-        MutableLiveData<User> userResponse = new MutableLiveData<>();
+        MutableLiveData<User> userSignUpResponse = new MutableLiveData<>();
 
         api.signUpEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        userResponse.setValue(response.body());
+                        userSignUpResponse.postValue(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-                        userResponse.setValue(null);
+                        userSignUpResponse.postValue(null);
                     }
                 });
 
-        return userResponse;
+        return userSignUpResponse;
     }
 
     @Override
     public MutableLiveData<User> signIn(String email, String password) {
-        MutableLiveData<User> userResponse = new MutableLiveData<>();
+        MutableLiveData<User> userSignInResponse = new MutableLiveData<>();
 
         api.signInEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        userResponse.setValue(response.body());
+                        userSignInResponse.postValue(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-                        userResponse.setValue(null);
+                        userSignInResponse.postValue(null);
                     }
                 });
 
-        return userResponse;
+        return userSignInResponse;
     }
 }

@@ -46,6 +46,10 @@ public class RegisterViewModel extends ViewModel {
         this.repeatPassword = repeatPassword;
     }
 
+    public LiveData<User> getUserRegisterCallback() {
+        return userRegisterCallback;
+    }
+
     public LiveData<User> registerUser() {
         if (isModelStateValid()) {
             userRegisterCallback = authRepository.signUp(email, password);

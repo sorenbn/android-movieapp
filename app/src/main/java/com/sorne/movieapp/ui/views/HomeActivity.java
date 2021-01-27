@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.sorne.movieapp.R;
@@ -29,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
 
         setupBindings();
         setupObservers();
+
+        viewModel.fetchPopularMovies();
     }
 
     private void setupBindings() {
@@ -39,14 +42,18 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupObservers(){
-        viewModel.getPopularMovies().observe(this, movieListResponse -> {
+        viewModel.popularMoviesLiveData().observe(this, movieListResponse -> {
+            Log.d("FETCH", "movies fetched");
             movieListAdaptor.updateData(movieListResponse.getMovies());
             dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
         });
-    }
 
-    public void fetch(View view){
-        dataBinding.recyclerMovieList.setVisibility(View.GONE);
-        viewModel.fetchData();
+        dataBinding.homeFetch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataBinding.recyclerMovieList.setVisibility(View.GONE);
+                viewModel.fetchPopularMovies();
+            }
+        });
     }
 }

@@ -15,11 +15,10 @@ public class LoginViewModel extends ViewModel {
 
     private final UserAuthRepository authRepo;
 
-    private LiveData<User> userSignIn = new MutableLiveData<>();
+    public MutableLiveData<User> userLoginCallback = new MutableLiveData<>();
 
     @ViewModelInject
-    public LoginViewModel(UserAuthRepository authRepo)
-    {
+    public LoginViewModel(UserAuthRepository authRepo) {
         this.authRepo = authRepo;
     }
 
@@ -40,7 +39,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public LiveData<User> login() {
-        userSignIn = authRepo.signIn(email, password);
-        return userSignIn;
+        userLoginCallback = authRepo.signIn(email, password);
+        return userLoginCallback;
     }
 }

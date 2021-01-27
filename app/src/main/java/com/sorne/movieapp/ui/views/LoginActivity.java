@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.sorne.movieapp.R;
@@ -36,20 +37,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        dataBinding.loginBtnLogin.setOnClickListener(new View.OnClickListener() {
 
+        viewModel.userLoginCallback.observe(LoginActivity.this, user -> {
+            if (user != null) {
+                Log.d("LOGIN", "User Login");
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+            } else {
+                setLoading(false);
+                Log.d("LOGIN", "User FAILED Login");
+            }
+        });
+
+        dataBinding.loginBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setLoading(true);
-
-                viewModel.login().observe(LoginActivity.this, user -> {
-                    if (user != null) {
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                    } else {
-                        setLoading(false);
-                    }
-                });
+                Log.d("LOGIN", "onClick");
+                viewModel.login();
             }
         });
 

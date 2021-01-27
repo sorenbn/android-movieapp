@@ -19,8 +19,6 @@ public class NetworkMovieRepository implements MovieRepository {
     private final MovieAPI api;
     private final String apiKey;
 
-    private MutableLiveData<MovieListResponse> popularMovieResponse = new MutableLiveData<>();
-    private MutableLiveData<Movie> movieDetailResponse = new MutableLiveData<>();
 
     @Inject
     public NetworkMovieRepository(MovieAPI api, @Named("movie_api_key") String apiKey) {
@@ -30,16 +28,18 @@ public class NetworkMovieRepository implements MovieRepository {
 
     @Override
     public LiveData<Movie> getMovieDetails(int id) {
+        MutableLiveData<Movie> movieDetailResponse = new MutableLiveData<>();
+
         api.getMovieDetails(id, apiKey)
                 .enqueue(new Callback<Movie>() {
                     @Override
                     public void onResponse(Call<Movie> call, Response<Movie> response) {
-                        movieDetailResponse.setValue(response.body());
+                        movieDetailResponse.postValue(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<Movie> call, Throwable t) {
-                        movieDetailResponse.setValue(null);
+                        movieDetailResponse.postValue(null);
                     }
                 });
 
@@ -48,18 +48,20 @@ public class NetworkMovieRepository implements MovieRepository {
 
     @Override
     public LiveData<MovieListResponse> getPopularMovies() {
+        MutableLiveData<MovieListResponse> popularMovieResponse = new MutableLiveData<>();
+
         api.getPopularMovies(apiKey)
                 .enqueue(new Callback<MovieListResponse>() {
                     @Override
                     public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
                         if (response.isSuccessful()) {
-                            popularMovieResponse.setValue(response.body());
+                            popularMovieResponse.postValue(response.body());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<MovieListResponse> call, Throwable t) {
-                        popularMovieResponse.setValue(null);
+                        popularMovieResponse.postValue(null);
                     }
                 });
 
