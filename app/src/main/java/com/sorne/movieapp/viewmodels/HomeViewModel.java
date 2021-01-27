@@ -15,21 +15,23 @@ public class HomeViewModel extends ViewModel {
 
     private final MovieRepository movieRepository;
 
-    private MutableLiveData<MovieListResponse> popularMovieResponse = new MutableLiveData<>();
+    public LiveData<MovieListResponse> popularMovieResponse;
 
     @ViewModelInject
     public HomeViewModel(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-    }
-
-    public LiveData<MovieListResponse> popularMoviesLiveData(){
-        return Transformations.switchMap(popularMovieResponse, input -> {
-            return movieRepository.getPopularMovies();
-        });
+        popularMovieResponse = popularMoviesLiveData();
     }
 
     public void fetchPopularMovies(){
         Log.d("FETCH", "fetching movies..");
-        popularMovieResponse.setValue(null);
+        popularMoviesLiveData();
+    }
+
+    private LiveData<MovieListResponse> popularMoviesLiveData(){
+        return Transformations.map(movieRepository.getPopularMovies(), input -> {
+            Log.d("FETCH", "Retrieved data: " + input.getMovies().size());
+            return input;
+        });
     }
 }

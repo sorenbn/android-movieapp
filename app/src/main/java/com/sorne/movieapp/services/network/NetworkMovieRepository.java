@@ -19,6 +19,8 @@ public class NetworkMovieRepository implements MovieRepository {
     private final MovieAPI api;
     private final String apiKey;
 
+    private MutableLiveData<Movie> movieDetailResponse = new MutableLiveData<>();
+    private MutableLiveData<MovieListResponse> popularMovieResponse = new MutableLiveData<>();
 
     @Inject
     public NetworkMovieRepository(MovieAPI api, @Named("movie_api_key") String apiKey) {
@@ -28,8 +30,6 @@ public class NetworkMovieRepository implements MovieRepository {
 
     @Override
     public LiveData<Movie> getMovieDetails(int id) {
-        MutableLiveData<Movie> movieDetailResponse = new MutableLiveData<>();
-
         api.getMovieDetails(id, apiKey)
                 .enqueue(new Callback<Movie>() {
                     @Override
@@ -48,8 +48,6 @@ public class NetworkMovieRepository implements MovieRepository {
 
     @Override
     public LiveData<MovieListResponse> getPopularMovies() {
-        MutableLiveData<MovieListResponse> popularMovieResponse = new MutableLiveData<>();
-
         api.getPopularMovies(apiKey)
                 .enqueue(new Callback<MovieListResponse>() {
                     @Override
@@ -67,5 +65,4 @@ public class NetworkMovieRepository implements MovieRepository {
 
         return popularMovieResponse;
     }
-
 }

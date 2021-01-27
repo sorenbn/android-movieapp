@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
         setupBindings();
         setupObservers();
 
-        viewModel.fetchPopularMovies();
+        /*viewModel.fetchPopularMovies();*/
     }
 
     private void setupBindings() {
@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupObservers(){
-        viewModel.popularMoviesLiveData().observe(this, movieListResponse -> {
+        viewModel.popularMovieResponse.observe(this, movieListResponse -> {
             Log.d("FETCH", "movies fetched");
             movieListAdaptor.updateData(movieListResponse.getMovies());
             dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
