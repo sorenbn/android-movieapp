@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sorne.movieapp.services.models.User;
-import com.sorne.movieapp.services.models.UserAuthRequest;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 public class RegisterViewModel extends ViewModel {
@@ -49,7 +48,7 @@ public class RegisterViewModel extends ViewModel {
 
     public LiveData<User> registerUser() {
         if (isModelStateValid()) {
-            userRegisterCallback = authRepository.signUp(new UserAuthRequest(email, password));
+            userRegisterCallback = authRepository.signUp(email, password);
         }
         else{
             userRegisterCallback.setValue(null);

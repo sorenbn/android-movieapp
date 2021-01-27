@@ -3,7 +3,6 @@ package com.sorne.movieapp.services.network;
 import androidx.lifecycle.MutableLiveData;
 
 import com.sorne.movieapp.services.models.User;
-import com.sorne.movieapp.services.models.UserAuthRequest;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 import javax.inject.Inject;
@@ -25,10 +24,10 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
     }
 
     @Override
-    public MutableLiveData<User> signUp(UserAuthRequest authModel) {
+    public MutableLiveData<User> signUp(String email, String password) {
         MutableLiveData<User> userResponse = new MutableLiveData<>();
 
-        api.signUpEmailPassword(apiKey, authModel)
+        api.signUpEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
@@ -45,10 +44,10 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
     }
 
     @Override
-    public MutableLiveData<User> signIn(UserAuthRequest authModel) {
+    public MutableLiveData<User> signIn(String email, String password) {
         MutableLiveData<User> userResponse = new MutableLiveData<>();
 
-        api.signInEmailPassword(apiKey, authModel)
+        api.signInEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {

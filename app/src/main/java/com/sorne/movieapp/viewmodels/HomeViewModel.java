@@ -1,7 +1,5 @@
 package com.sorne.movieapp.viewmodels;
 
-import android.util.Log;
-
 import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,7 +21,6 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void fetchData(){
-        Log.d("HOME", "fetchData: fetching data from repo");
         movieRepository.getPopularMovies();
     }
 }

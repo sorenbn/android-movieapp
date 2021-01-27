@@ -1,7 +1,5 @@
 package com.sorne.movieapp.services.network;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -21,6 +19,9 @@ public class NetworkMovieRepository implements MovieRepository {
     private final MovieAPI api;
     private final String apiKey;
 
+    private MutableLiveData<MovieListResponse> popularMovieResponse = new MutableLiveData<>();
+    private MutableLiveData<Movie> movieDetailResponse = new MutableLiveData<>();
+
     @Inject
     public NetworkMovieRepository(MovieAPI api, @Named("movie_api_key") String apiKey) {
         this.api = api;
@@ -29,46 +30,40 @@ public class NetworkMovieRepository implements MovieRepository {
 
     @Override
     public LiveData<Movie> getMovieDetails(int id) {
-        MutableLiveData<Movie> movieResponse = new MutableLiveData<>();
-
         api.getMovieDetails(id, apiKey)
                 .enqueue(new Callback<Movie>() {
                     @Override
                     public void onResponse(Call<Movie> call, Response<Movie> response) {
-                        movieResponse.setValue(response.body());
+                        movieDetailResponse.setValue(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<Movie> call, Throwable t) {
-                        movieResponse.setValue(null);
+                        movieDetailResponse.setValue(null);
                     }
                 });
 
-        return movieResponse;
+        return movieDetailResponse;
     }
 
     @Override
     public LiveData<MovieListResponse> getPopularMovies() {
-        //TODO: SOMETHING IN HERE IS MESSING UP AND NOT SENDING BACK CHANGE IN DATA!
-        MutableLiveData<MovieListResponse> movieResponse = new MutableLiveData<>();
-
         api.getPopularMovies(apiKey)
                 .enqueue(new Callback<MovieListResponse>() {
                     @Override
                     public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
                         if (response.isSuccessful()) {
-                            Log.d("HOME", "setting value from REST API");
-                            movieResponse.setValue(response.body());
+                            popularMovieResponse.setValue(response.body());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<MovieListResponse> call, Throwable t) {
-                        movieResponse.setValue(null);
+                        popularMovieResponse.setValue(null);
                     }
                 });
 
-        return movieResponse;
+        return popularMovieResponse;
     }
 
 }
