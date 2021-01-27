@@ -30,8 +30,6 @@ public class HomeActivity extends AppCompatActivity {
 
         setupBindings();
         setupObservers();
-
-        /*viewModel.fetchPopularMovies();*/
     }
 
     private void setupBindings() {
