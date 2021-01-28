@@ -12,19 +12,19 @@ public class HomeViewModel extends ViewModel {
 
     private final MovieRepository movieRepository;
 
-    public LiveData<MovieListResponse> popularMovieResponse;
+    public LiveData<MovieListResponse> popularMovieCallback;
 
     @ViewModelInject
     public HomeViewModel(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        popularMovieResponse = popularMoviesLiveData();
+        popularMovieCallback = getPopularMoviesLiveData();
     }
 
     public void fetchPopularMovies(){
-        popularMoviesLiveData();
+        getPopularMoviesLiveData();
     }
 
-    private LiveData<MovieListResponse> popularMoviesLiveData(){
+    private LiveData<MovieListResponse> getPopularMoviesLiveData(){
         return Transformations.map(movieRepository.getPopularMovies(), input -> {
             return input;
         });

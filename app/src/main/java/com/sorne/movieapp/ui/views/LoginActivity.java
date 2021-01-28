@@ -37,15 +37,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-
         viewModel.userLoginCallback.observe(LoginActivity.this, user -> {
             if (user != null) {
-                Log.d("LOGIN", "User Login");
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
             } else {
                 setLoading(false);
-                Log.d("LOGIN", "User FAILED Login");
             }
         });
 
@@ -53,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setLoading(true);
-                Log.d("LOGIN", "onClick");
                 viewModel.login();
             }
         });

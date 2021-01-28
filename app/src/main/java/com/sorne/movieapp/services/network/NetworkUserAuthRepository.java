@@ -17,6 +17,9 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
     private final UserAuthAPI api;
     private final String apiKey;
 
+    private MutableLiveData<User> userSignUpResponse = new MutableLiveData<>();
+    private MutableLiveData<User>userSignInResponse =new MutableLiveData<>();
+
     @Inject
     public NetworkUserAuthRepository(UserAuthAPI api, @Named("firebase_api_key") String apiKey) {
         this.api = api;
@@ -25,8 +28,6 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
 
     @Override
     public MutableLiveData<User> signUp(String email, String password) {
-        MutableLiveData<User> userSignUpResponse = new MutableLiveData<>();
-
         api.signUpEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override
@@ -45,8 +46,6 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
 
     @Override
     public MutableLiveData<User> signIn(String email, String password) {
-        MutableLiveData<User> userSignInResponse = new MutableLiveData<>();
-
         api.signInEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override

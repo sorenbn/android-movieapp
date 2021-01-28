@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        viewModel.getUserRegisterCallback().observe(this, user -> {
+        viewModel.userRegisterCallback.observe(this, user -> {
             if(user != null){
                 Log.d("REGISTER", "user registered");
                 Intent intent = new Intent(this, HomeActivity.class);

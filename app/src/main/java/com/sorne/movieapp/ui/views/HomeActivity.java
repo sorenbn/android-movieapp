@@ -40,8 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupObservers(){
-        viewModel.popularMovieResponse.observe(this, movieListResponse -> {
-            Log.d("FETCH", "movies fetched");
+        viewModel.popularMovieCallback.observe(this, movieListResponse -> {
             movieListAdaptor.updateData(movieListResponse.getMovies());
             dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
         });
