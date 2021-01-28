@@ -5,28 +5,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
+import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.services.repositories.MovieRepository;
 
 public class HomeViewModel extends ViewModel {
 
     private final MovieRepository movieRepository;
 
-    public LiveData<MovieListResponse> popularMovieCallback;
-
     @ViewModelInject
     public HomeViewModel(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        popularMovieCallback = getPopularMoviesLiveData();
     }
 
-    public void fetchPopularMovies(){
-        getPopularMoviesLiveData();
+    public void getMovieDetails(int id, APICallback<Movie> callback){
+        movieRepository.getMovieDetails(id, callback);
     }
 
-    private LiveData<MovieListResponse> getPopularMoviesLiveData(){
-        return Transformations.map(movieRepository.getPopularMovies(), input -> {
-            return input;
-        });
+    public void getPopularMovies(APICallback<MovieListResponse> callback){
+        movieRepository.getPopularMovies(callback);
     }
 }

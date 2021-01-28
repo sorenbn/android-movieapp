@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityRegisterBinding;
+import com.sorne.movieapp.services.models.User;
+import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.viewmodels.RegisterViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -38,23 +40,28 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        viewModel.userRegisterCallback.observe(this, user -> {
-            if(user != null){
-                Log.d("REGISTER", "user registered");
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-            }else {
-                Log.d("REGISTER", "user FAILED registered");
-                setLoading(false);
-            }
-        });
-
         dataBinding.registerBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("REGISTER", "onClick");
                 setLoading(true);
-                viewModel.registerUser();
+                viewModel.registerUser(new APICallback<User>() {
+                    @Override
+                    public void onResponse(User response) {
+                        if (response != null) {
+                            Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            return;
+                        }
+
+                        setLoading(false);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        setLoading(false);
+                    }
+                });
             }
         });
     }

@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
+import com.sorne.movieapp.services.models.MovieListResponse;
+import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
 import com.sorne.movieapp.viewmodels.HomeViewModel;
 
@@ -40,16 +42,22 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupObservers(){
-        viewModel.popularMovieCallback.observe(this, movieListResponse -> {
-            movieListAdaptor.updateData(movieListResponse.getMovies());
-            dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
-        });
-
         dataBinding.homeFetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dataBinding.recyclerMovieList.setVisibility(View.GONE);
-                viewModel.fetchPopularMovies();
+                viewModel.getPopularMovies(new APICallback<MovieListResponse>() {
+                    @Override
+                    public void onResponse(MovieListResponse response) {
+                        movieListAdaptor.updateData(response.getMovies());
+                        dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.d("MOVIE", "onError: " + errorMessage);
+                    }
+                });
             }
         });
     }

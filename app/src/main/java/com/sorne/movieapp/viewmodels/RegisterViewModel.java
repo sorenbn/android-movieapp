@@ -1,12 +1,10 @@
 package com.sorne.movieapp.viewmodels;
 
 import androidx.hilt.lifecycle.ViewModelInject;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.sorne.movieapp.services.models.User;
+import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 public class RegisterViewModel extends ViewModel {
@@ -16,12 +14,9 @@ public class RegisterViewModel extends ViewModel {
 
     private final UserAuthRepository authRepository;
 
-    public LiveData<User> userRegisterCallback;
-
     @ViewModelInject
     public RegisterViewModel(UserAuthRepository authRepository) {
         this.authRepository = authRepository;
-        userRegisterCallback = tryRegisterUser("", "");
     }
 
     public String getEmail() {
@@ -48,16 +43,13 @@ public class RegisterViewModel extends ViewModel {
         this.repeatPassword = repeatPassword;
     }
 
-    public void registerUser(){
-        //if(isModelStateValid()){
-            tryRegisterUser(email, password);
-        //}
-    }
-
-    private LiveData<User> tryRegisterUser(String email, String password) {
-        return Transformations.map(authRepository.signUp(email, password), input -> {
-            return input;
-        });
+    public void registerUser(APICallback<User> callback){
+        if(isModelStateValid()){
+            authRepository.signUp(email, password, callback);
+        }
+        else{
+            callback.onError("Info not correct");
+        }
     }
 
     private boolean isModelStateValid() {

@@ -1,7 +1,5 @@
 package com.sorne.movieapp.services.network;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.sorne.movieapp.services.models.User;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
@@ -17,9 +15,6 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
     private final UserAuthAPI api;
     private final String apiKey;
 
-    private MutableLiveData<User> userSignUpResponse = new MutableLiveData<>();
-    private MutableLiveData<User>userSignInResponse =new MutableLiveData<>();
-
     @Inject
     public NetworkUserAuthRepository(UserAuthAPI api, @Named("firebase_api_key") String apiKey) {
         this.api = api;
@@ -27,38 +22,34 @@ public class NetworkUserAuthRepository implements UserAuthRepository {
     }
 
     @Override
-    public MutableLiveData<User> signUp(String email, String password) {
+    public void signUp(String email, String password, APICallback<User> responseCallback) {
         api.signUpEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        userSignUpResponse.postValue(response.body());
+                        responseCallback.onResponse(response.isSuccessful() ? response.body() : null);
                     }
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-                        userSignUpResponse.postValue(null);
+                        responseCallback.onError("Error");
                     }
                 });
-
-        return userSignUpResponse;
     }
 
     @Override
-    public MutableLiveData<User> signIn(String email, String password) {
+    public void signIn(String email, String password, APICallback<User> responseCallback) {
         api.signInEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        userSignInResponse.postValue(response.body());
+                        responseCallback.onResponse(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-                        userSignInResponse.postValue(null);
+                        responseCallback.onError("Error");
                     }
                 });
-
-        return userSignInResponse;
     }
 }

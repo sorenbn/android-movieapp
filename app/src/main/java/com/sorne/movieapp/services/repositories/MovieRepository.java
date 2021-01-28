@@ -1,11 +1,10 @@
 package com.sorne.movieapp.services.repositories;
 
-import androidx.lifecycle.LiveData;
-
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
+import com.sorne.movieapp.services.network.APICallback;
 
 public interface MovieRepository {
-    LiveData<Movie> getMovieDetails(int id);
-    LiveData<MovieListResponse> getPopularMovies();
+    void getMovieDetails(int id, APICallback<Movie> responseCallback);
+    void getPopularMovies(APICallback<MovieListResponse> responseCallback);
 }

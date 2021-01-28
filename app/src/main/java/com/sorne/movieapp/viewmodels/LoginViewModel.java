@@ -7,6 +7,7 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.sorne.movieapp.services.models.User;
+import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 public class LoginViewModel extends ViewModel {
@@ -16,12 +17,9 @@ public class LoginViewModel extends ViewModel {
 
     private final UserAuthRepository authRepo;
 
-    public LiveData<User> userLoginCallback;
-
     @ViewModelInject
     public LoginViewModel(UserAuthRepository authRepo) {
         this.authRepo = authRepo;
-        userLoginCallback = tryLogin("", "");
     }
 
     public String getEmail() {
@@ -40,13 +38,8 @@ public class LoginViewModel extends ViewModel {
         this.password = password;
     }
 
-    public void login(){
-        tryLogin(email, password);
-    }
-
-    private LiveData<User> tryLogin(String email, String password){
-        return Transformations.map(authRepo.signIn(email, password), input -> {
-           return input;
-        });
+    public void login(APICallback<User> callback){
+        //TODO: Implement isModelStateValid function
+        authRepo.signIn(email, password, callback);
     }
 }

@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityLoginBinding;
+import com.sorne.movieapp.services.models.User;
+import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.viewmodels.LoginViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -37,20 +39,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        viewModel.userLoginCallback.observe(LoginActivity.this, user -> {
-            if (user != null) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-            } else {
-                setLoading(false);
-            }
-        });
-
         dataBinding.loginBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setLoading(true);
-                viewModel.login();
+                viewModel.login(new APICallback<User>() {
+                    @Override
+                    public void onResponse(User response) {
+                        if (response != null) {
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            return;
+                        }
+
+                        setLoading(false);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        setLoading(false);
+                    }
+                });
             }
         });
 

@@ -1,8 +1,5 @@
 package com.sorne.movieapp.services.network;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 import com.sorne.movieapp.services.repositories.MovieRepository;
@@ -19,9 +16,6 @@ public class NetworkMovieRepository implements MovieRepository {
     private final MovieAPI api;
     private final String apiKey;
 
-    private MutableLiveData<Movie> movieDetailResponse = new MutableLiveData<>();
-    private MutableLiveData<MovieListResponse> popularMovieResponse = new MutableLiveData<>();
-
     @Inject
     public NetworkMovieRepository(MovieAPI api, @Named("movie_api_key") String apiKey) {
         this.api = api;
@@ -29,40 +23,38 @@ public class NetworkMovieRepository implements MovieRepository {
     }
 
     @Override
-    public LiveData<Movie> getMovieDetails(int id) {
+    public void getMovieDetails(int id, APICallback<Movie> responseCallback) {
         api.getMovieDetails(id, apiKey)
                 .enqueue(new Callback<Movie>() {
                     @Override
                     public void onResponse(Call<Movie> call, Response<Movie> response) {
-                        movieDetailResponse.postValue(response.body());
+                        if(response.isSuccessful()){
+                            responseCallback.onResponse(response.body());
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<Movie> call, Throwable t) {
-                        movieDetailResponse.postValue(null);
+                        responseCallback.onError("Error");
                     }
                 });
-
-        return movieDetailResponse;
     }
 
     @Override
-    public LiveData<MovieListResponse> getPopularMovies() {
+    public void getPopularMovies(APICallback<MovieListResponse> responseCallback) {
         api.getPopularMovies(apiKey)
                 .enqueue(new Callback<MovieListResponse>() {
                     @Override
                     public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
                         if (response.isSuccessful()) {
-                            popularMovieResponse.postValue(response.body());
+                            responseCallback.onResponse(response.body());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<MovieListResponse> call, Throwable t) {
-                        popularMovieResponse.postValue(null);
+                        responseCallback.onError("Error");
                     }
                 });
-
-        return popularMovieResponse;
     }
 }
