@@ -32,6 +32,8 @@ public class HomeActivity extends AppCompatActivity {
 
         setupBindings();
         setupObservers();
+
+        fetchMovies();
     }
 
     private void setupBindings() {
@@ -45,19 +47,23 @@ public class HomeActivity extends AppCompatActivity {
         dataBinding.homeFetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataBinding.recyclerMovieList.setVisibility(View.GONE);
-                viewModel.getPopularMovies(new APICallback<MovieListResponse>() {
-                    @Override
-                    public void onResponse(MovieListResponse response) {
-                        movieListAdaptor.updateData(response.getMovies());
-                        dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
-                    }
+                fetchMovies();
+            }
+        });
+    }
 
-                    @Override
-                    public void onError(String errorMessage) {
-                        Log.d("MOVIE", "onError: " + errorMessage);
-                    }
-                });
+    private void fetchMovies(){
+        dataBinding.recyclerMovieList.setVisibility(View.GONE);
+        viewModel.getPopularMovies(new APICallback<MovieListResponse>() {
+            @Override
+            public void onResponse(MovieListResponse response) {
+                movieListAdaptor.updateData(response.getMovies());
+                dataBinding.recyclerMovieList.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("MOVIE", "onError: " + errorMessage);
             }
         });
     }
