@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                app:startIconDrawable="@drawable/ic_baseline_mail_24"
+                app:startIconDrawable="@drawable/ic_mail_24"
                 tools:layout_editor_absoluteX="40dp"
                 tools:layout_editor_absoluteY="128dp">
 
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Password"
-                app:startIconDrawable="@drawable/ic_baseline_lock_24">
+                app:startIconDrawable="@drawable/ic_lock_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Repeat password"
-                app:startIconDrawable="@drawable/ic_baseline_lock_24">
+                app:startIconDrawable="@drawable/ic_lock_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

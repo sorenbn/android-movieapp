@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
+import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
@@ -31,8 +33,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setupBindings();
-        setupObservers();
-
         fetchMovies();
     }
 
@@ -43,16 +43,23 @@ public class HomeActivity extends AppCompatActivity {
         dataBinding.recyclerMovieList.setAdapter(movieListAdaptor);
     }
 
-    private void setupObservers(){
-        dataBinding.homeFetch.setOnClickListener(new View.OnClickListener() {
+    private void fetchMovies() {
+        viewModel.getMovieDetails(550, new APICallback<Movie>() {
             @Override
-            public void onClick(View v) {
-                fetchMovies();
+            public void onResponse(Movie response) {
+                dataBinding.homeFeatureMovieTitle.setText(response.getTitle());
+                String url = getString(R.string.movie_api_base_url_poster) + response.getPosterUrl();
+                Glide.with(HomeActivity.this)
+                        .load(url)
+                        .into(dataBinding.homeFeatureMovieImg);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                dataBinding.homeFeatureMovieTitle.setText("Unknown");
             }
         });
-    }
 
-    private void fetchMovies(){
         dataBinding.recyclerMovieList.setVisibility(View.GONE);
         viewModel.getPopularMovies(new APICallback<MovieListResponse>() {
             @Override
