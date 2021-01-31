@@ -57,7 +57,6 @@ public class MovieListAdaptor extends RecyclerView.Adapter<MovieListAdaptor.Movi
 
         void updateViewData(Movie movie){
             //TODO: Fix image base URL injection
-            viewBinding.movieListThumbnailTitle.setText(movie.getTitle());
             String url = viewBinding.movieListThumbnailImg.getContext().getString(R.string.movie_api_base_url_poster) + movie.getPosterUrl();
             Glide.with(viewBinding.movieListThumbnailImg.getContext())
                     .load(url)

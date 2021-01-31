@@ -13,7 +13,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +30,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher"
+                    android:foreground="@drawable/box_gradient"/>
 
                 <LinearLayout
                     android:id="@+id/home_topNavBar"
@@ -40,19 +42,21 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <Button
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/topNavbarButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Series" />
 
                     <Button
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/topNavbarButton"
+                        android:textSize="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Films" />
 
                     <Button
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/topNavbarButton"
+                        android:textSize="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="My List" />
@@ -72,7 +76,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Awesome Movie Title"
-                        style="@style/TextAppearance.AppCompat.Headline"/>
+                        style="@style/TextAppearance.MaterialComponents.Headline4"
+                        android:textColor="@color/white"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -88,7 +93,7 @@
                             android:text="My List" />
 
                         <Button
-                            android:layout_width="130dp"
+                            android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="PLAY" />
@@ -102,6 +107,8 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
+
             </FrameLayout>
 
             <LinearLayout
@@ -117,14 +124,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Popular Movies"
-                    style="@style/TextAppearance.AppCompat.Subhead"/>
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textColor="@color/white"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerMovieList"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/item_movie_list_thumbnail">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
