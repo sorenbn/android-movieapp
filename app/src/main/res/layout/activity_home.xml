@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -18,40 +16,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <include
-                android:id="@+id/home_featureMovieLayout"
+                android:id="@+id/home_featureMovie"
                 layout="@layout/home_feature_movie"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                tools:context=".ui.views.HomeActivity">
+            <include
+                android:id="@+id/home_popularMovies"
+                layout="@layout/home_movie_category_list" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Popular Movies"
-                    style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:textColor="@color/white"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerMovieList"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="6"
-                    tools:listitem="@layout/home_movie_thumbnail">
 
-                </androidx.recyclerview.widget.RecyclerView>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </layout>
