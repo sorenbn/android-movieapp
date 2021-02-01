@@ -47,16 +47,16 @@ public class HomeActivity extends AppCompatActivity {
         viewModel.getMovieDetails(550, new APICallback<Movie>() {
             @Override
             public void onResponse(Movie response) {
-                dataBinding.homeFeatureMovieTitle.setText(response.getTitle());
+                dataBinding.homeFeatureMovieLayout.homeFeatureMovieTitle.setText(response.getTitle());
                 String url = getString(R.string.movie_api_base_url_poster) + response.getPosterUrl();
                 Glide.with(HomeActivity.this)
                         .load(url)
-                        .into(dataBinding.homeFeatureMovieImg);
+                        .into(dataBinding.homeFeatureMovieLayout.homeFeatureMovieImg);
             }
 
             @Override
             public void onError(String errorMessage) {
-                dataBinding.homeFeatureMovieTitle.setText("Unknown");
+                dataBinding.homeFeatureMovieLayout.homeFeatureMovieTitle.setText("Unknown");
             }
         });
 

@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.sorne.movieapp.R;
-import com.sorne.movieapp.databinding.ItemMovieListThumbnailBinding;
+import com.sorne.movieapp.databinding.HomeMovieThumbnailBinding;
 import com.sorne.movieapp.services.models.Movie;
 
 import java.util.List;
 
 public class MovieListAdaptor extends RecyclerView.Adapter<MovieListAdaptor.MovieListViewHolder> {
 
-    private ItemMovieListThumbnailBinding viewBinding;
+    private HomeMovieThumbnailBinding viewBinding;
     private List<Movie> movies;
 
     public MovieListAdaptor(List<Movie> movies) {
@@ -32,7 +32,7 @@ public class MovieListAdaptor extends RecyclerView.Adapter<MovieListAdaptor.Movi
     @NonNull
     @Override
     public MovieListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        viewBinding = ItemMovieListThumbnailBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        viewBinding = HomeMovieThumbnailBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new MovieListViewHolder(viewBinding);
     }
 
@@ -48,9 +48,9 @@ public class MovieListAdaptor extends RecyclerView.Adapter<MovieListAdaptor.Movi
 
     class MovieListViewHolder extends RecyclerView.ViewHolder{
 
-        private ItemMovieListThumbnailBinding viewBinding;
+        private HomeMovieThumbnailBinding viewBinding;
 
-        public MovieListViewHolder(@NonNull ItemMovieListThumbnailBinding binding) {
+        public MovieListViewHolder(@NonNull HomeMovieThumbnailBinding binding) {
             super(binding.getRoot());
             this.viewBinding = binding;
         }

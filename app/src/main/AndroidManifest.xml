@@ -14,7 +14,11 @@
         android:theme="@style/Theme.MovieApp">
 
         <activity android:name=".ui.views.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".ui.views.RegisterActivity">
@@ -22,11 +26,7 @@
         </activity>
 
         <activity android:name=".ui.views.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
