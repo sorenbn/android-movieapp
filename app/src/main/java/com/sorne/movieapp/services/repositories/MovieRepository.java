@@ -7,4 +7,5 @@ import com.sorne.movieapp.services.network.APICallback;
 public interface MovieRepository {
     void getMovieDetails(int id, APICallback<Movie> responseCallback);
     void getPopularMovies(APICallback<MovieListResponse> responseCallback);
+    void getTopRatedMovies(APICallback<MovieListResponse> responseCallback);
 }

@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.HomeMovieThumbnailBinding;
 import com.sorne.movieapp.services.models.Movie;
@@ -58,7 +57,7 @@ public class MovieListAdaptor extends RecyclerView.Adapter<MovieListAdaptor.Movi
 
         void updateViewData(Movie movie){
             //TODO: Fix image base URL injection
-            String url = viewBinding.movieListThumbnailImg.getContext().getString(R.string.movie_api_base_url_poster) + movie.getPosterUrl();
+            String url = viewBinding.movieListThumbnailImg.getContext().getString(R.string.movie_api_base_url_images) + movie.getPosterUrl();
             ViewUtils.loadImage(viewBinding.movieListThumbnailImg, url);
         }
     }

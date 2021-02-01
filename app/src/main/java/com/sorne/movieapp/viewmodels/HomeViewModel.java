@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
+import com.sorne.movieapp.enums.MovieListType;
 import com.sorne.movieapp.services.network.APICallback;
 import com.sorne.movieapp.services.repositories.MovieRepository;
 
@@ -21,7 +22,15 @@ public class HomeViewModel extends ViewModel {
         movieRepository.getMovieDetails(id, callback);
     }
 
-    public void getPopularMovies(APICallback<MovieListResponse> callback){
-        movieRepository.getPopularMovies(callback);
+    public void getMovieList(MovieListType type, APICallback<MovieListResponse> callback){
+        switch (type){
+            case Popular:
+                movieRepository.getPopularMovies(callback);
+                break;
+
+            case TopRated:
+                movieRepository.getTopRatedMovies(callback);
+                break;
+        }
     }
 }

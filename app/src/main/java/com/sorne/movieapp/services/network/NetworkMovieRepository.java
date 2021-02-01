@@ -57,4 +57,22 @@ public class NetworkMovieRepository implements MovieRepository {
                     }
                 });
     }
+
+    @Override
+    public void getTopRatedMovies(APICallback<MovieListResponse> responseCallback) {
+        api.getTopRatedMovies(apiKey)
+                .enqueue(new Callback<MovieListResponse>() {
+                    @Override
+                    public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
+                        if (response.isSuccessful()) {
+                            responseCallback.onResponse(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MovieListResponse> call, Throwable t) {
+                        responseCallback.onError("Error");
+                    }
+                });
+    }
 }

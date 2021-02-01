@@ -28,6 +28,12 @@ public class MovieAPIModule {
     }
 
     @Provides
+    @Named("movie_image_base_url")
+    public String provideImageBaseURL(@ApplicationContext Context context){
+        return context.getString(R.string.movie_api_base_url_images);
+    }
+
+    @Provides
     @Named("movie_api_key")
     public String provideAPIKey(@ApplicationContext Context context){
         return context.getString(R.string.movie_api_key);

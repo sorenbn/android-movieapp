@@ -3,14 +3,15 @@ package com.sorne.movieapp.ui.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
+import com.sorne.movieapp.enums.MovieListType;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 import com.sorne.movieapp.services.network.APICallback;
@@ -20,14 +21,24 @@ import com.sorne.movieapp.viewmodels.HomeViewModel;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class HomeActivity extends AppCompatActivity {
 
+    @Inject
+    @Named("movie_image_base_url")
+    public String baseImageUrl;
+
     private HomeViewModel viewModel;
     private ActivityHomeBinding dataBinding;
-    private MovieListAdaptor movieListAdaptor = new MovieListAdaptor(new ArrayList<>());
+
+    //TODO: Hardcoded. Make dynamic
+    private MovieListAdaptor popularMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());
+    private MovieListAdaptor topRatedMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +50,28 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupBindings() {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        dataBinding.homePopularMovies.recyclerMovieList.setAdapter(movieListAdaptor);
 
-        //TODO: Hardcoded. Make dynamic later
+        //TODO: Hardcoded. Make dynamic
+        dataBinding.homePopularMovies.recyclerMovieList.setAdapter(popularMovieListAdaptor);
+        dataBinding.homeTopRatedMovies.recyclerMovieList.setAdapter(topRatedMovieListAdaptor);
+
         dataBinding.homePopularMovies.homeCategoryTitle.setText("Popular Movies");
+        dataBinding.homeTopRatedMovies.homeCategoryTitle.setText("Top-rated Movies");
     }
 
     private void fetchMovies() {
-        viewModel.getMovieDetails(550, new APICallback<Movie>() {
+        fetchFeatureMovie(550);
+        fetchMovieLists(MovieListType.Popular, dataBinding.homePopularMovies.recyclerMovieList, popularMovieListAdaptor);
+        fetchMovieLists(MovieListType.TopRated, dataBinding.homeTopRatedMovies.recyclerMovieList, topRatedMovieListAdaptor);
+    }
+
+    private void fetchFeatureMovie(int movieId) {
+        viewModel.getMovieDetails(movieId, new APICallback<Movie>() {
             @Override
             public void onResponse(Movie response) {
                 dataBinding.homeFeatureMovie.homeFeatureMovieTitle.setText(response.getTitle());
-                String url = getString(R.string.movie_api_base_url_poster) + response.getPosterUrl();
+                String url = baseImageUrl + response.getPosterUrl();
                 ViewUtils.loadImage(dataBinding.homeFeatureMovie.homeFeatureMovieImg, url);
             }
 
@@ -61,13 +80,15 @@ public class HomeActivity extends AppCompatActivity {
                 dataBinding.homeFeatureMovie.homeFeatureMovieTitle.setText("Unknown");
             }
         });
+    }
 
-        dataBinding.homePopularMovies.recyclerMovieList.setVisibility(View.GONE);
-        viewModel.getPopularMovies(new APICallback<MovieListResponse>() {
+    private void fetchMovieLists(MovieListType type, RecyclerView recyclerView, MovieListAdaptor adaptor) {
+        recyclerView.setVisibility(View.GONE);
+        viewModel.getMovieList(type, new APICallback<MovieListResponse>() {
             @Override
             public void onResponse(MovieListResponse response) {
-                movieListAdaptor.updateData(response.getMovies());
-                dataBinding.homePopularMovies.recyclerMovieList.setVisibility(View.VISIBLE);
+                adaptor.updateData(response.getMovies());
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
