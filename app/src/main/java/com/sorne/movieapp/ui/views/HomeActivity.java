@@ -8,22 +8,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
-import com.sorne.movieapp.enums.DiscoverQuery;
+import com.sorne.movieapp.enums.MovieQuery;
 import com.sorne.movieapp.enums.MovieListType;
+import com.sorne.movieapp.services.models.Genre;
+import com.sorne.movieapp.services.models.GenreListResponse;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 import com.sorne.movieapp.services.utils.APICallback;
-import com.sorne.movieapp.services.utils.DiscoverQueryPair;
-import com.sorne.movieapp.services.utils.DiscoverQueryService;
+import com.sorne.movieapp.services.utils.MovieQueryPair;
 import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
 import com.sorne.movieapp.ui.utils.ViewUtils;
 import com.sorne.movieapp.viewmodels.HomeViewModel;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,22 +43,38 @@ public class HomeActivity extends AppCompatActivity {
     private HomeViewModel viewModel;
     private ActivityHomeBinding dataBinding;
 
-    //TODO: Hardcoded. Make dynamic
-/*    private MovieListAdaptor popularMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());
-    private MovieListAdaptor topRatedMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setupBindings();
         fetchMovies();
+    }
 
-        viewModel.getDiscoverMovies(new APICallback<MovieListResponse>() {
+    private void setupBindings() {
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+    }
+
+    private void fetchMovies() {
+        fetchFeatureMovie(550);
+
+        viewModel.getMovieGenres(new APICallback<GenreListResponse>() {
             @Override
-            public void onResponse(MovieListResponse response) {
-                for (Movie mov : response.getMovies()){
-                    Log.d("MOVIE", mov.getTitle());
+            public void onResponse(GenreListResponse response) {
+
+                for (Genre genre : response.getGenres()) {
+                    viewModel.getDiscoverMovies(new APICallback<MovieListResponse>() {
+                        @Override
+                        public void onResponse(MovieListResponse response) {
+                            createCategoryList(genre.getName(), response.getMovies());
+                        }
+
+                        @Override
+                        public void onError(String errorMessage) {
+
+                        }
+                    }, new MovieQueryPair(MovieQuery.Genre, String.valueOf(genre.getId())));
                 }
             }
 
@@ -63,26 +82,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onError(String errorMessage) {
 
             }
-        }, new DiscoverQueryPair(DiscoverQuery.Genre, "35"), new DiscoverQueryPair(DiscoverQuery.ReleaseYear, "2010"));
-    }
-
-    private void setupBindings() {
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-
-        //TODO: Hardcoded. Make dynamic
-/*        dataBinding.homePopularMovies.recyclerMovieList.setAdapter(popularMovieListAdaptor);
-        dataBinding.homeTopRatedMovies.recyclerMovieList.setAdapter(topRatedMovieListAdaptor);
-
-        dataBinding.homePopularMovies.homeCategoryTitle.setText("Popular Movies");
-        dataBinding.homeTopRatedMovies.homeCategoryTitle.setText("Top-rated Movies");*/
-
-    }
-
-    private void fetchMovies() {
-        fetchFeatureMovie(550);
-/*        fetchMovieLists(MovieListType.Popular, dataBinding.homePopularMovies.recyclerMovieList, popularMovieListAdaptor);
-        fetchMovieLists(MovieListType.TopRated, dataBinding.homeTopRatedMovies.recyclerMovieList, topRatedMovieListAdaptor);*/
+        });
     }
 
     private void fetchFeatureMovie(int movieId) {
@@ -101,19 +101,18 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchMovieLists(MovieListType type, RecyclerView recyclerView, MovieListAdaptor adaptor) {
-        recyclerView.setVisibility(View.GONE);
-        viewModel.getMovieList(type, new APICallback<MovieListResponse>() {
-            @Override
-            public void onResponse(MovieListResponse response) {
-                adaptor.updateData(response.getMovies());
-                recyclerView.setVisibility(View.VISIBLE);
-            }
+    private void createCategoryList(String categoryTitle, List<Movie> movies) {
+        LinearLayout layout = dataBinding.homeCategoryListDynamic;
+        View listLayout = getLayoutInflater().inflate(R.layout.home_movie_category_list, layout, false);
+        layout.addView(listLayout);
 
-            @Override
-            public void onError(String errorMessage) {
-                Log.d("MOVIE", "onError: " + errorMessage);
-            }
-        });
+        RecyclerView recycler = listLayout.findViewById(R.id.recyclerMovieList);
+        MovieListAdaptor adaptor = new MovieListAdaptor(new ArrayList<>());
+
+        recycler.setAdapter(adaptor);
+        adaptor.updateData(movies);
+
+        TextView title = listLayout.findViewById(R.id.home_CategoryTitle);
+        title.setText(categoryTitle);
     }
 }

@@ -1,6 +1,6 @@
 package com.sorne.movieapp.enums;
 
-public enum DiscoverQuery {
+public enum MovieQuery {
     Genre,
     Page,
     ReleaseYear,

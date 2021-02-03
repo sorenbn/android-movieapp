@@ -1,17 +1,17 @@
 package com.sorne.movieapp.services.utils;
 
-import com.sorne.movieapp.enums.DiscoverQuery;
+import com.sorne.movieapp.enums.MovieQuery;
 
-public class DiscoverQueryPair {
-    private DiscoverQuery query;
+public class MovieQueryPair {
+    private MovieQuery query;
     private String value;
 
-    public DiscoverQueryPair(DiscoverQuery query, String value) {
+    public MovieQueryPair(MovieQuery query, String value) {
         this.query = query;
         this.value = value;
     }
 
-    public DiscoverQuery getQuery() {
+    public MovieQuery getQuery() {
         return query;
     }
 

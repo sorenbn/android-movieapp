@@ -2,26 +2,26 @@ package com.sorne.movieapp.services.utils;
 
 import android.util.Log;
 
-import com.sorne.movieapp.enums.DiscoverQuery;
+import com.sorne.movieapp.enums.MovieQuery;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiscoverQueryService {
-    private Map<DiscoverQuery, String> allQueries;
+public class MovieQueryHelper {
+    private Map<MovieQuery, String> allQueries;
 
-    public DiscoverQueryService() {
+    public MovieQueryHelper() {
         setupMap();
     }
 
     private void setupMap() {
         allQueries = new HashMap<>();
-        allQueries.put(DiscoverQuery.Genre, "with_genres");
-        allQueries.put(DiscoverQuery.Page, "page");
-        allQueries.put(DiscoverQuery.ReleaseYear, "primary_release_year");
+        allQueries.put(MovieQuery.Genre, "with_genres");
+        allQueries.put(MovieQuery.Page, "page");
+        allQueries.put(MovieQuery.ReleaseYear, "primary_release_year");
     }
 
-    public String getDiscoverQuery(DiscoverQuery query) {
+    public String getMovieQueryString(MovieQuery query) {
         if (allQueries.containsKey(query)) {
             return allQueries.get(query);
         }

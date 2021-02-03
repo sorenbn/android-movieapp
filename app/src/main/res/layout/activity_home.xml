@@ -23,16 +23,11 @@
                 android:id="@+id/home_featureMovie"
                 layout="@layout/home_feature_movie"/>
 
-
-<!--
-            <include
-                android:id="@+id/home_popularMovies"
-                layout="@layout/home_movie_category_list" />
-
-            <include
-                android:id="@+id/home_topRatedMovies"
-                layout="@layout/home_movie_category_list"
-                />-->
+            <LinearLayout
+                android:id="@+id/home_CategoryListDynamic"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </ScrollView>
