@@ -3,6 +3,7 @@ package com.sorne.movieapp.ui.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -101,12 +102,14 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    //TODO: Make this work with data-binding
     private void createCategoryList(String categoryTitle, List<Movie> movies) {
         LinearLayout layout = dataBinding.homeCategoryListDynamic;
         View listLayout = getLayoutInflater().inflate(R.layout.home_movie_category_list, layout, false);
         layout.addView(listLayout);
 
         RecyclerView recycler = listLayout.findViewById(R.id.recyclerMovieList);
+        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         MovieListAdaptor adaptor = new MovieListAdaptor(new ArrayList<>());
 
         recycler.setAdapter(adaptor);
