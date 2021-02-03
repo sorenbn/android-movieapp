@@ -60,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
     private void fetchMovies() {
         fetchFeatureMovie(550);
 
+        //TODO: Fix this callback hell
         viewModel.getMovieGenres(new APICallback<GenreListResponse>() {
             @Override
             public void onResponse(GenreListResponse response) {
@@ -110,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
 
         RecyclerView recycler = listLayout.findViewById(R.id.recyclerMovieList);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        MovieListAdaptor adaptor = new MovieListAdaptor(new ArrayList<>());
+        MovieListAdaptor adaptor = new MovieListAdaptor(this, new ArrayList<>());
 
         recycler.setAdapter(adaptor);
         adaptor.updateData(movies);

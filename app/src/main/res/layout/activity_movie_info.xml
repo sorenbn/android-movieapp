@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.sorne.movieapp.viewmodels.MovieInfoViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:fitsSystemWindows="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".ui.views.MovieInfoActivity">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="195dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="8dp">
+
+            <ImageView
+                android:id="@+id/movieInfo_posterImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher"
+                app:imageFromUrl="@{viewmodel.movie.posterUrl}"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/movieInfo_title"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{viewmodel.movie.title}"
+            tools:text="Movie Title"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/movieInfo_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground fight clubs forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion."
+            android:text="@{viewmodel.movie.description}"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</layout>
+
