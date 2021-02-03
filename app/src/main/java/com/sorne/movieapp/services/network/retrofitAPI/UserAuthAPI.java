@@ -1,4 +1,4 @@
-package com.sorne.movieapp.services.network;
+package com.sorne.movieapp.services.network.retrofitAPI;
 
 import com.sorne.movieapp.services.models.User;
 

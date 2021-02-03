@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityLoginBinding;
 import com.sorne.movieapp.services.models.User;
-import com.sorne.movieapp.services.network.APICallback;
+import com.sorne.movieapp.services.utils.APICallback;
 import com.sorne.movieapp.viewmodels.LoginViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;

@@ -1,5 +1,6 @@
-package com.sorne.movieapp.services.network;
+package com.sorne.movieapp.services.network.retrofitAPI;
 
+import com.sorne.movieapp.services.models.GenreListResponse;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 
@@ -17,4 +18,7 @@ public interface MovieAPI {
 
     @GET("movie/top_rated")
     Call<MovieListResponse> getTopRatedMovies(@Query("api_key") String apiKey);
+
+    @GET("genre/movie/list")
+    Call<GenreListResponse> getAllMovieGenres(@Query("api_key") String apiKey);
 }

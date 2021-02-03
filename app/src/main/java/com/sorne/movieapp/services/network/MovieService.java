@@ -1,8 +1,12 @@
 package com.sorne.movieapp.services.network;
 
+import com.sorne.movieapp.services.models.GenreListResponse;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
+import com.sorne.movieapp.services.network.retrofitAPI.MovieAPI;
 import com.sorne.movieapp.services.repositories.MovieRepository;
+import com.sorne.movieapp.services.utils.APICallback;
+
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -11,13 +15,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NetworkMovieRepository implements MovieRepository {
+public class MovieService implements MovieRepository {
 
     private final MovieAPI api;
     private final String apiKey;
 
     @Inject
-    public NetworkMovieRepository(MovieAPI api, @Named("movie_api_key") String apiKey) {
+    public MovieService(MovieAPI api, @Named("movie_api_key") String apiKey) {
         this.api = api;
         this.apiKey = apiKey;
     }
@@ -71,6 +75,24 @@ public class NetworkMovieRepository implements MovieRepository {
 
                     @Override
                     public void onFailure(Call<MovieListResponse> call, Throwable t) {
+                        responseCallback.onError("Error");
+                    }
+                });
+    }
+
+    @Override
+    public void getAllMovieGenres(APICallback<GenreListResponse> responseCallback) {
+        api.getAllMovieGenres(apiKey)
+                .enqueue(new Callback<GenreListResponse>() {
+                    @Override
+                    public void onResponse(Call<GenreListResponse> call, Response<GenreListResponse> response) {
+                        if(response.isSuccessful()){
+                            responseCallback.onResponse(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GenreListResponse> call, Throwable t) {
                         responseCallback.onError("Error");
                     }
                 });

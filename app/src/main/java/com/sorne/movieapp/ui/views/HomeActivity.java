@@ -12,14 +12,14 @@ import android.view.View;
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
 import com.sorne.movieapp.enums.MovieListType;
+import com.sorne.movieapp.services.models.Genre;
+import com.sorne.movieapp.services.models.GenreListResponse;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
-import com.sorne.movieapp.services.network.APICallback;
+import com.sorne.movieapp.services.utils.APICallback;
 import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
 import com.sorne.movieapp.ui.utils.ViewUtils;
 import com.sorne.movieapp.viewmodels.HomeViewModel;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,8 +37,8 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding dataBinding;
 
     //TODO: Hardcoded. Make dynamic
-    private MovieListAdaptor popularMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());
-    private MovieListAdaptor topRatedMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());
+/*    private MovieListAdaptor popularMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());
+    private MovieListAdaptor topRatedMovieListAdaptor = new MovieListAdaptor(new ArrayList<>());*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +53,18 @@ public class HomeActivity extends AppCompatActivity {
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
         //TODO: Hardcoded. Make dynamic
-        dataBinding.homePopularMovies.recyclerMovieList.setAdapter(popularMovieListAdaptor);
+/*        dataBinding.homePopularMovies.recyclerMovieList.setAdapter(popularMovieListAdaptor);
         dataBinding.homeTopRatedMovies.recyclerMovieList.setAdapter(topRatedMovieListAdaptor);
 
         dataBinding.homePopularMovies.homeCategoryTitle.setText("Popular Movies");
-        dataBinding.homeTopRatedMovies.homeCategoryTitle.setText("Top-rated Movies");
+        dataBinding.homeTopRatedMovies.homeCategoryTitle.setText("Top-rated Movies");*/
+
     }
 
     private void fetchMovies() {
         fetchFeatureMovie(550);
-        fetchMovieLists(MovieListType.Popular, dataBinding.homePopularMovies.recyclerMovieList, popularMovieListAdaptor);
-        fetchMovieLists(MovieListType.TopRated, dataBinding.homeTopRatedMovies.recyclerMovieList, topRatedMovieListAdaptor);
+/*        fetchMovieLists(MovieListType.Popular, dataBinding.homePopularMovies.recyclerMovieList, popularMovieListAdaptor);
+        fetchMovieLists(MovieListType.TopRated, dataBinding.homeTopRatedMovies.recyclerMovieList, topRatedMovieListAdaptor);*/
     }
 
     private void fetchFeatureMovie(int movieId) {

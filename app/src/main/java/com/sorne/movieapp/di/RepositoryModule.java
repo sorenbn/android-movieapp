@@ -1,7 +1,7 @@
 package com.sorne.movieapp.di;
 
-import com.sorne.movieapp.services.network.NetworkMovieRepository;
-import com.sorne.movieapp.services.network.NetworkUserAuthRepository;
+import com.sorne.movieapp.services.network.MovieService;
+import com.sorne.movieapp.services.network.UserAuthService;
 import com.sorne.movieapp.services.repositories.MovieRepository;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
@@ -14,8 +14,8 @@ import dagger.hilt.android.components.ApplicationComponent;
 @InstallIn(ApplicationComponent.class)
 public abstract class RepositoryModule {
     @Binds
-    public abstract MovieRepository bindMovieRepository(NetworkMovieRepository repository);
+    public abstract MovieRepository bindMovieRepository(MovieService service);
 
     @Binds
-    public abstract UserAuthRepository bindUserAuthRepository(NetworkUserAuthRepository repository);
+    public abstract UserAuthRepository bindUserAuthRepository(UserAuthService service);
 }

@@ -12,7 +12,7 @@ import android.view.View;
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityRegisterBinding;
 import com.sorne.movieapp.services.models.User;
-import com.sorne.movieapp.services.network.APICallback;
+import com.sorne.movieapp.services.utils.APICallback;
 import com.sorne.movieapp.viewmodels.RegisterViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;

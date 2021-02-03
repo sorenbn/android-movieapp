@@ -1,7 +1,9 @@
 package com.sorne.movieapp.services.network;
 
 import com.sorne.movieapp.services.models.User;
+import com.sorne.movieapp.services.network.retrofitAPI.UserAuthAPI;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
+import com.sorne.movieapp.services.utils.APICallback;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,13 +12,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NetworkUserAuthRepository implements UserAuthRepository {
+public class UserAuthService implements UserAuthRepository {
 
     private final UserAuthAPI api;
     private final String apiKey;
 
     @Inject
-    public NetworkUserAuthRepository(UserAuthAPI api, @Named("firebase_api_key") String apiKey) {
+    public UserAuthService(UserAuthAPI api, @Named("firebase_api_key") String apiKey) {
         this.api = api;
         this.apiKey = apiKey;
     }

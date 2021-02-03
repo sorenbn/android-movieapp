@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.ViewModel;
 
 import com.sorne.movieapp.services.models.User;
-import com.sorne.movieapp.services.network.APICallback;
+import com.sorne.movieapp.services.utils.APICallback;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
 
 public class RegisterViewModel extends ViewModel {

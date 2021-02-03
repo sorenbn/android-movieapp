@@ -1,4 +1,4 @@
-package com.sorne.movieapp.services.network;
+package com.sorne.movieapp.services.utils;
 
 public interface APICallback<T> {
     void onResponse(T response);
