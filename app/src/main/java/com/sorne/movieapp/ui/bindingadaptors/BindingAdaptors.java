@@ -1,6 +1,7 @@
 package com.sorne.movieapp.ui.bindingadaptors;
 
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
