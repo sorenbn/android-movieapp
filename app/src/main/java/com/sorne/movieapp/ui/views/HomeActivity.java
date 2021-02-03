@@ -11,15 +11,19 @@ import android.view.View;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
+import com.sorne.movieapp.enums.DiscoverQuery;
 import com.sorne.movieapp.enums.MovieListType;
-import com.sorne.movieapp.services.models.Genre;
-import com.sorne.movieapp.services.models.GenreListResponse;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 import com.sorne.movieapp.services.utils.APICallback;
+import com.sorne.movieapp.services.utils.DiscoverQueryPair;
+import com.sorne.movieapp.services.utils.DiscoverQueryService;
 import com.sorne.movieapp.ui.adaptors.MovieListAdaptor;
 import com.sorne.movieapp.ui.utils.ViewUtils;
 import com.sorne.movieapp.viewmodels.HomeViewModel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,6 +50,20 @@ public class HomeActivity extends AppCompatActivity {
 
         setupBindings();
         fetchMovies();
+
+        viewModel.getDiscoverMovies(new APICallback<MovieListResponse>() {
+            @Override
+            public void onResponse(MovieListResponse response) {
+                for (Movie mov : response.getMovies()){
+                    Log.d("MOVIE", mov.getTitle());
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        }, new DiscoverQueryPair(DiscoverQuery.Genre, "35"), new DiscoverQueryPair(DiscoverQuery.ReleaseYear, "2010"));
     }
 
     private void setupBindings() {

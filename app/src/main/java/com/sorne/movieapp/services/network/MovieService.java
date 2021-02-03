@@ -8,6 +8,8 @@ import com.sorne.movieapp.services.repositories.MovieRepository;
 import com.sorne.movieapp.services.utils.APICallback;
 
 
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -79,6 +81,25 @@ public class MovieService implements MovieRepository {
                     }
                 });
     }
+
+    @Override
+    public void getDiscoverMovies(Map<String, String> queryOptions, APICallback<MovieListResponse> responseCallback) {
+        api.getDiscoverMovies(queryOptions, apiKey)
+                .enqueue(new Callback<MovieListResponse>() {
+                    @Override
+                    public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
+                        if(response.isSuccessful()){
+                            responseCallback.onResponse(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MovieListResponse> call, Throwable t) {
+                        responseCallback.onError("Error");
+                    }
+                });
+    }
+
 
     @Override
     public void getAllMovieGenres(APICallback<GenreListResponse> responseCallback) {

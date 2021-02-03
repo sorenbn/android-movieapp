@@ -3,20 +3,29 @@ package com.sorne.movieapp.viewmodels;
 import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.ViewModel;
 
+import com.sorne.movieapp.enums.DiscoverQuery;
 import com.sorne.movieapp.services.models.GenreListResponse;
 import com.sorne.movieapp.services.models.Movie;
 import com.sorne.movieapp.services.models.MovieListResponse;
 import com.sorne.movieapp.enums.MovieListType;
 import com.sorne.movieapp.services.utils.APICallback;
 import com.sorne.movieapp.services.repositories.MovieRepository;
+import com.sorne.movieapp.services.utils.DiscoverQueryPair;
+import com.sorne.movieapp.services.utils.DiscoverQueryService;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 public class HomeViewModel extends ViewModel {
-
+    private final DiscoverQueryService queryService;
     private final MovieRepository movieRepository;
 
     @ViewModelInject
-    public HomeViewModel(MovieRepository movieRepository) {
+    public HomeViewModel(MovieRepository movieRepository, DiscoverQueryService queryService) {
         this.movieRepository = movieRepository;
+        this.queryService = queryService;
     }
 
     public void getMovieDetails(int id, APICallback<Movie> callback){
@@ -33,6 +42,16 @@ public class HomeViewModel extends ViewModel {
                 movieRepository.getTopRatedMovies(callback);
                 break;
         }
+    }
+
+    public void getDiscoverMovies(APICallback<MovieListResponse> callback, DiscoverQueryPair... queryPairs){
+        Map<String, String> queryOptions = new HashMap<>();
+
+        for (DiscoverQueryPair queryPair : queryPairs){
+            queryOptions.put(queryService.getDiscoverQuery(queryPair.getQuery()), queryPair.getValue());
+        }
+
+        movieRepository.getDiscoverMovies(queryOptions, callback);
     }
 
     public void getMovieGenres(APICallback<GenreListResponse> callback){

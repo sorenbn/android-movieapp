@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.services.network.retrofitAPI.MovieAPI;
+import com.sorne.movieapp.services.utils.DiscoverQueryService;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -48,5 +49,11 @@ public class MovieAPIModule {
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build()
                 .create(MovieAPI.class);
+    }
+
+    @Provides
+    @Singleton
+    public DiscoverQueryService provideDiscoverQueryService(){
+        return new DiscoverQueryService();
     }
 }
