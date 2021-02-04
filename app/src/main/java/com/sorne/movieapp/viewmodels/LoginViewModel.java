@@ -46,6 +46,11 @@ public class LoginViewModel extends ViewModel {
     public void login() {
         userSignIn.setValue(AsyncResource.loading(null));
 
+        if(!isModelValid()){
+            userSignIn.setValue(AsyncResource.error("Didn't provide correct info", null));
+            return;
+        }
+
         final LiveData<AsyncResource<User>> response = LiveDataReactiveStreams
                 .fromPublisher(authRepo.signIn(email, password)
                 .onErrorReturn(throwable -> {
@@ -69,5 +74,16 @@ public class LoginViewModel extends ViewModel {
 
     public LiveData<AsyncResource<User>> observeUserLogin() {
         return userSignIn;
+    }
+
+    private boolean isModelValid(){
+        if(email.isEmpty() || !email.contains("@")){
+            return false;
+        }
+        else if(password.isEmpty()){
+            return false;
+        }
+
+        return true;
     }
 }

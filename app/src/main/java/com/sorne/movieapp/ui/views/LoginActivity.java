@@ -40,12 +40,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        viewModel.observeUserLogin().observe(this, userAsyncResource -> {
-            handleSignInResponse(userAsyncResource);
-        });
-
         dataBinding.loginBtnLogin.setOnClickListener(v -> {
             viewModel.login();
+        });
+
+        viewModel.observeUserLogin().observe(this, userAsyncResource -> {
+            handleSignInResponse(userAsyncResource);
         });
 
         dataBinding.loginBtnRegister.setOnClickListener(v -> {
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     break;
 
                 case ERROR:
-                    Log.d("SIGN IN", "error");
+                    Log.d("SIGN IN", "error: " + userAsyncResource.message);
                     setLoading(false);
                     break;
             }
