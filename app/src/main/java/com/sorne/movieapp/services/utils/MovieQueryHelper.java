@@ -16,9 +16,9 @@ public class MovieQueryHelper {
 
     private void setupMap() {
         allQueries = new HashMap<>();
-        allQueries.put(MovieQuery.Genre, "with_genres");
-        allQueries.put(MovieQuery.Page, "page");
-        allQueries.put(MovieQuery.ReleaseYear, "primary_release_year");
+        allQueries.put(MovieQuery.GENRE, "with_genres");
+        allQueries.put(MovieQuery.PAGE, "page");
+        allQueries.put(MovieQuery.RELEASE_YEAR, "primary_release_year");
     }
 
     public String getMovieQueryString(MovieQuery query) {

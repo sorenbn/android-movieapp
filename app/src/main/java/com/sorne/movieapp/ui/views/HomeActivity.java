@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityHomeBinding;
 import com.sorne.movieapp.enums.MovieQuery;
-import com.sorne.movieapp.enums.MovieListType;
 import com.sorne.movieapp.services.models.Genre;
 import com.sorne.movieapp.services.models.GenreListResponse;
 import com.sorne.movieapp.services.models.Movie;
@@ -76,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
                         public void onError(String errorMessage) {
 
                         }
-                    }, new MovieQueryPair(MovieQuery.Genre, String.valueOf(genre.getId())));
+                    }, new MovieQueryPair(MovieQuery.GENRE, String.valueOf(genre.getId())));
                 }
             }
 

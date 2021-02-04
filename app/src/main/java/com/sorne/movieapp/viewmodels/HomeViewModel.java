@@ -31,11 +31,11 @@ public class HomeViewModel extends ViewModel {
 
     public void getMovieList(MovieListType type, APICallback<MovieListResponse> callback){
         switch (type){
-            case Popular:
+            case POPULAR:
                 movieRepository.getPopularMovies(callback);
                 break;
 
-            case TopRated:
+            case TOP_RATED:
                 movieRepository.getTopRatedMovies(callback);
                 break;
         }
