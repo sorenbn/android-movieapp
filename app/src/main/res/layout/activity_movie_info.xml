@@ -52,26 +52,27 @@
             android:text="@{viewmodel.movie.description}"
             android:textColor="@color/white" />
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="40dp"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginStart="64dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rating"
-                    android:textColor="@color/white" />
+                    android:src="@drawable/ic_star_32"
+                    app:tint="@color/golden" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -81,30 +82,33 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{Float.toString(viewmodel.movie.rating)}"
                         android:textColor="@color/white"
-                        android:textSize="28sp"
-                        tools:text="6.4" />
+                        android:textSize="20sp"
+                        android:text="@{Float.toString(viewmodel.movie.rating)}"
+                        tools:text="6.4"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" / 10"
                         android:textColor="@color/white"
-                        android:textSize="28sp" />
+                        android:textSize="20sp"
+                        android:text=" / 10"/>
+
                 </LinearLayout>
             </LinearLayout>
 
             <Button
+                android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="137dp"
-                android:text="Rate" />
+                android:layout_marginEnd="64dp"
+                android:text="Rate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </RelativeLayout>
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>
 
