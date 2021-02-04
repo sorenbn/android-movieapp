@@ -24,14 +24,40 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     private float rating;
 
-    public Movie(String id, String title, String description, String posterUrl, String backdropUrl, float rating) {
+    @SerializedName("vote_count")
+    private int voteCount;
+
+    public Movie(String id, String title, String description, String posterUrl, String backdropUrl, float rating, int voteCount) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.posterUrl = posterUrl;
         this.backdropUrl = backdropUrl;
         this.rating = rating;
+        this.voteCount = voteCount;
     }
+
+    protected Movie(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
+        posterUrl = in.readString();
+        backdropUrl = in.readString();
+        rating = in.readFloat();
+        voteCount = in.readInt();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -57,39 +83,9 @@ public class Movie implements Parcelable {
         return rating;
     }
 
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", posterUrl='" + posterUrl + '\'' +
-                ", backdropUrl='" + backdropUrl + '\'' +
-                ", rating=" + rating +
-                '}';
+    public int getVoteCount() {
+        return voteCount;
     }
-
-    //PARCEL STUFF
-    protected Movie(Parcel in) {
-        id = in.readString();
-        title = in.readString();
-        description = in.readString();
-        posterUrl = in.readString();
-        backdropUrl = in.readString();
-        rating = in.readFloat();
-    }
-
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -104,5 +100,6 @@ public class Movie implements Parcelable {
         dest.writeString(posterUrl);
         dest.writeString(backdropUrl);
         dest.writeFloat(rating);
+        dest.writeInt(voteCount);
     }
 }

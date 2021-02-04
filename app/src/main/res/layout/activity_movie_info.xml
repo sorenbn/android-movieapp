@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewmodel"
             type="com.sorne.movieapp.viewmodels.MovieInfoViewModel" />
@@ -30,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                tools:src="@mipmap/ic_launcher"
-                app:imageFromUrl="@{viewmodel.movie.posterUrl}"/>
+                app:imageFromUrl="@{viewmodel.movie.posterUrl}"
+                tools:src="@mipmap/ic_launcher" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -41,16 +42,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@{viewmodel.movie.title}"
-            tools:text="Movie Title"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:text="Movie Title" />
 
         <TextView
             android:id="@+id/movieInfo_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground fight clubs forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion."
             android:text="@{viewmodel.movie.description}"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground fight clubs forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion." />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -61,8 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
-                android:orientation="vertical"
                 android:gravity="center_horizontal"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -82,17 +83,39 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{Float.toString(viewmodel.movie.rating)}"
                         android:textColor="@color/white"
                         android:textSize="20sp"
-                        android:text="@{Float.toString(viewmodel.movie.rating)}"
-                        tools:text="6.4"/>
+                        tools:text="6.4" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text=" / 10"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:text=" / 10"/>
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        tools:text="9999"
+                        android:text="@{Integer.toString(viewmodel.movie.voteCount)}"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="votes"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
 
                 </LinearLayout>
             </LinearLayout>
