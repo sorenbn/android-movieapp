@@ -2,6 +2,7 @@ package com.sorne.movieapp.services.network.retrofitAPI;
 
 import com.sorne.movieapp.services.models.User;
 
+import io.reactivex.rxjava3.core.Flowable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -17,5 +18,5 @@ public interface UserAuthAPI {
     //Uses ./ to escape the ':' in the url
     @FormUrlEncoded
     @POST("./accounts:signInWithPassword")
-    Call<User> signInEmailPassword(@Query("key") String apiKey, @Field("email") String email, @Field("password") String password);
+    Flowable<User> signInEmailPassword(@Query("key") String apiKey, @Field("email") String email, @Field("password") String password);
 }

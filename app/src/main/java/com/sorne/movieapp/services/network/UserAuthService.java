@@ -1,5 +1,7 @@
 package com.sorne.movieapp.services.network;
 
+import androidx.lifecycle.LiveData;
+
 import com.sorne.movieapp.services.models.User;
 import com.sorne.movieapp.services.network.retrofitAPI.UserAuthAPI;
 import com.sorne.movieapp.services.repositories.UserAuthRepository;
@@ -8,6 +10,7 @@ import com.sorne.movieapp.services.utils.APICallback;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import io.reactivex.rxjava3.core.Flowable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +43,11 @@ public class UserAuthService implements UserAuthRepository {
     }
 
     @Override
+    public Flowable<User> signIn(String email, String password) {
+        return api.signInEmailPassword(apiKey, email, password);
+    }
+
+/*    @Override
     public void signIn(String email, String password, APICallback<User> responseCallback) {
         api.signInEmailPassword(apiKey, email, password)
                 .enqueue(new Callback<User>() {
@@ -53,5 +61,5 @@ public class UserAuthService implements UserAuthRepository {
                         responseCallback.onError("Error");
                     }
                 });
-    }
+    }*/
 }

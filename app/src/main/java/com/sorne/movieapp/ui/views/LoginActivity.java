@@ -2,16 +2,18 @@ package com.sorne.movieapp.ui.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.sorne.movieapp.R;
 import com.sorne.movieapp.databinding.ActivityLoginBinding;
 import com.sorne.movieapp.services.models.User;
-import com.sorne.movieapp.services.utils.APICallback;
+import com.sorne.movieapp.services.utils.AsyncResource;
 import com.sorne.movieapp.viewmodels.LoginViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -38,45 +40,45 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        dataBinding.loginBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setLoading(true);
-                viewModel.login(new APICallback<User>() {
-                    @Override
-                    public void onResponse(User response) {
-                        if (response != null) {
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            return;
-                        }
-
-                        setLoading(false);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                        setLoading(false);
-                    }
-                });
-            }
+        viewModel.observeUserLogin().observe(this, userAsyncResource -> {
+            handleSignInResponse(userAsyncResource);
         });
 
-        dataBinding.loginBtnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
+        dataBinding.loginBtnLogin.setOnClickListener(v -> {
+            viewModel.login();
         });
 
-        dataBinding.loginBtnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
+        dataBinding.loginBtnRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
+
+        dataBinding.loginBtnSkip.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void handleSignInResponse(AsyncResource<User> userAsyncResource) {
+        if(userAsyncResource != null){
+            switch(userAsyncResource.status){
+                case LOADING:
+                    Log.d("SIGN IN", "loading");
+                    setLoading(true);
+                    break;
+
+                case SUCCESS:
+                    Log.d("SIGN IN", "success");
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case ERROR:
+                    Log.d("SIGN IN", "error");
+                    setLoading(false);
+                    break;
+            }
+        }
     }
 
     private void setLoading(boolean loading) {
